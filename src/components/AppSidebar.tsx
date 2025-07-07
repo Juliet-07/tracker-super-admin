@@ -36,7 +36,7 @@ const navItems = [
   {
     icon: Home,
     label: "Dashboard",
-    href: "/",
+    href: "/home",
   },
   {
     icon: Building2,

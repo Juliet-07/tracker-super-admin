@@ -12,7 +12,7 @@ const AppLayout = () => {
         <AppSidebar />
         <div className="flex flex-col flex-1">
           <Header />
-          <main className="flex-grow bg-gray-50">
+          <main className="flex-grow bg-gray-100">
             <Outlet />
           </main>
           <Footer />
