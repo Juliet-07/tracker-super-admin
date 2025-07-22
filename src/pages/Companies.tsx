@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import axiosInstance from "@/api/axios";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
@@ -12,9 +15,29 @@ import {
 import CompanyStatsCard from "@/components/CompanyStatsCard";
 import QuickActionCard from "@/components/QuickActionCard";
 import CompaniesTable from "@/components/CompaniesTable";
-import { Link } from "react-router-dom";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const CompaniesPage = () => {
+  const apiURL = import.meta.env.VITE_REACT_APP_BASE_URL;
+
+  const fetchCompanies = async () => {
+    const res = await axiosInstance.get(`${apiURL}/companies`, {
+      withCredentials: true,
+    });
+    console.log(res.data, "response");
+    return res.data;
+  };
+
+  const {
+    data: companies = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["companies"],
+    queryFn: fetchCompanies,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
   return (
     <main className="p-4 md:p-6">
       {/* Page Header */}
@@ -32,39 +55,10 @@ const CompaniesPage = () => {
         </Button>
       </div>
 
-      {/* Demo Alert */}
-      {/* <Alert className="bg-blue-50 border-blue-200 text-blue-700 mb-6 flex items-center justify-between">
-        <div className="flex items-center">
-          <Info className="h-5 w-5 text-blue-500" />
-          <AlertDescription className="ml-3">
-            This is demo user some features are disabled.
-          </AlertDescription>
-        </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="text-blue-500 hover:text-blue-700 h-6 w-6 shrink-0"
-        >
-          <X className="h-4 w-4" />
-        </Button>
-      </Alert> */}
-
-      {/* Email Verification */}
-      {/* <Alert className="bg-gray-100 border-gray-200 mb-6 flex items-center justify-between">
-        <div className="flex items-center">
-          <Mail className="h-5 w-5 text-gray-600" />
-          <AlertDescription className="text-gray-700 ml-3">
-            Kindly verify your email Id.
-          </AlertDescription>
-        </div>
-        <Button size="sm">Verify</Button>
-      </Alert> */}
-
-      {/* Company Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <CompanyStatsCard
           title="All Companies"
-          value="24"
+          value={`${companies.length}`}
           barText="Total Companies"
           barColor="bg-primary"
         />

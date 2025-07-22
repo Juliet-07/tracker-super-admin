@@ -35,6 +35,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Logo_Black from "../assets/logo_black.jpg";
 
 const Header = () => {
   const { state } = useSidebar();
@@ -139,8 +140,7 @@ const Header = () => {
 
           {isSidebarCollapsed && (
             <Link to="/" className="flex items-center space-x-2">
-              <Wind className="h-7 w-7" />
-              <span className="text-xl font-bold hidden sm:inline">eKaze</span>
+              <img src={Logo_Black} className="w-[100px]" />
             </Link>
           )}
         </div>

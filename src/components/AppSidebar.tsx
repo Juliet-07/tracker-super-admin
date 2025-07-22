@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
+import Logo_White from "../assets/logo.svg" 
 
 const navItems = [
   {
@@ -93,9 +94,7 @@ const AppSidebar = () => {
             >
               <Wind className="h-7 w-7 text-white [&[data-mobile=true]]:text-white" />
               {(!isCollapsed || isMobile) && (
-                <span className="text-xl font-bold text-white [&[data-mobile=true]]:text-white">
-                  eKaze
-                </span>
+                <img src={Logo_White} className="w-[100px]"/>
               )}
             </Link>
             {isMobile && (
