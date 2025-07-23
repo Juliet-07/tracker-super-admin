@@ -2,16 +2,7 @@ import { Link } from "react-router-dom";
 import axiosInstance from "@/api/axios";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import {
-  Plus,
-  Info,
-  X,
-  Mail,
-  ArrowRight,
-  Building,
-  ChartLine,
-} from "lucide-react";
+import { Plus, ArrowRight, Building, ChartLine } from "lucide-react";
 import CompanyStatsCard from "@/components/CompanyStatsCard";
 import QuickActionCard from "@/components/QuickActionCard";
 import CompaniesTable from "@/components/CompaniesTable";
@@ -36,7 +27,7 @@ const CompaniesPage = () => {
   } = useQuery({
     queryKey: ["companies"],
     queryFn: fetchCompanies,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000,
   });
   return (
     <main className="p-4 md:p-6">
@@ -83,7 +74,7 @@ const CompaniesPage = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <QuickActionCard
           title="Manage Companies"
           description="View, create, update, delete company profiles. Assign admins and manage permissions for each organization."
@@ -100,7 +91,7 @@ const CompaniesPage = () => {
           titleIcon={ChartLine}
           imageUrl="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&q=80"
         />
-      </div>
+      </div> */}
 
       {/* Companies Table */}
       <CompaniesTable />
