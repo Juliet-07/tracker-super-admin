@@ -138,6 +138,11 @@ const Login = () => {
           >
             {isLoggingIn ? "Signing In..." : "Sign In"}
           </Button>
+          {errorMessage && (
+            <div className="bg-red-500 text-white text-sm font-primaryMedium p-4 mt-4 text-center">
+              {errorMessage}
+            </div>
+          )}
         </form>
 
         {/* <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
