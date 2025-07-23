@@ -157,6 +157,7 @@ const AddCompanyPage = () => {
 
     setFormData((prev) => ({ ...prev, logo: file.name }));
   };
+  
   const handleAddCompany = async () => {
     if (!industryId) {
       alert("Please select industry");

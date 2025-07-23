@@ -113,7 +113,7 @@ const Header = () => {
           <SidebarTrigger className="hover:bg-gray-100" />
 
           {isSidebarCollapsed && (
-            <Link to="/" className="flex items-center space-x-2">
+            <Link to="/home" className="flex items-center space-x-2">
               <img src={Logo_Black} className="w-[100px]" />
             </Link>
           )}
