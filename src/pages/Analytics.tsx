@@ -1,3 +1,5 @@
+import axiosInstance from "@/api/axios";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   Download,
@@ -22,6 +24,45 @@ import RecentAlertsCard from "@/components/analytics/RecentAlertsCard";
 import PerformanceTable from "@/components/analytics/PerformanceTable";
 
 const AnalyticsPage = () => {
+  const apiURL = import.meta.env.VITE_REACT_APP_BASE_URL;
+
+  const fetchCompanies = async () => {
+    const res = await axiosInstance.get(`${apiURL}/companies`, {
+      withCredentials: true,
+    });
+    // console.log(res.data, "response");
+    return res.data;
+  };
+
+  const fetchAdmins = async () => {
+    const res = await axiosInstance.get(`${apiURL}/users`, {
+      withCredentials: true,
+    });
+    // console.log(res.data, "response");
+    return res.data;
+  };
+
+  const {
+    data: companies = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["companies"],
+    queryFn: fetchCompanies,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const {
+    data: admins = [],
+    // isLoading,
+    // isError,
+    // error,
+  } = useQuery({
+    queryKey: ["admin"],
+    queryFn: fetchAdmins,
+    staleTime: 5 * 60 * 1000,
+  });
   return (
     <div className="p-6 bg-gray-50">
       <div className="flex items-center justify-between mb-6">
@@ -52,17 +93,17 @@ const AnalyticsPage = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <AnalyticsKpiCard
           title="Total Companies"
-          value="24"
+          value={`${companies.length}`}
           icon={Building}
           iconBgColor="bg-blue-100"
           iconColor="text-blue-600"
-          change="+12%"
-          changeText="from last month"
+          change=""
+          changeText=""
         />
-        <AnalyticsKpiCard
+        {/* <AnalyticsKpiCard
           title="Active Devices"
           value="1,847"
           icon={SatelliteDish}
@@ -70,15 +111,15 @@ const AnalyticsPage = () => {
           iconColor="text-green-600"
           statusText="94.2% Online"
           statusColor="text-green-600"
-        />
+        /> */}
         <AnalyticsKpiCard
           title="Total Users"
-          value="312"
+          value={`${admins.length}`}
           icon={Users}
           iconBgColor="bg-purple-100"
           iconColor="text-purple-600"
-          change="+8%"
-          changeText="from last month"
+          change=""
+          changeText=""
         />
         <AnalyticsKpiCard
           title="System Uptime"

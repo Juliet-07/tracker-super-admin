@@ -1,3 +1,5 @@
+import axiosInstance from "@/api/axios";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Plus, Info, X } from "lucide-react";
 import KPICard from "@/components/KPICard";
@@ -8,6 +10,45 @@ import ActivityChart from "@/components/ActivityChart";
 import { format } from "date-fns";
 
 const Dashboard = () => {
+  const apiURL = import.meta.env.VITE_REACT_APP_BASE_URL;
+
+  const fetchCompanies = async () => {
+    const res = await axiosInstance.get(`${apiURL}/companies`, {
+      withCredentials: true,
+    });
+    // console.log(res.data, "response");
+    return res.data;
+  };
+
+  const fetchAdmins = async () => {
+    const res = await axiosInstance.get(`${apiURL}/users`, {
+      withCredentials: true,
+    });
+    // console.log(res.data, "response");
+    return res.data;
+  };
+
+  const {
+    data: companies = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["companies"],
+    queryFn: fetchCompanies,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const {
+    data: admins = [],
+    // isLoading,
+    // isError,
+    // error,
+  } = useQuery({
+    queryKey: ["admin"],
+    queryFn: fetchAdmins,
+    staleTime: 5 * 60 * 1000,
+  });
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
@@ -30,26 +71,26 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <KPICard
           title="Total Companies"
-          value="24"
-          percentage="+12%"
-          timeframe="from last month"
+          value={`${companies.length}`}
+          percentage=""
+          timeframe=""
           icon="Building2"
           iconBgColor="bg-blue-100"
           iconColor="text-blue-600"
         />
         <KPICard
           title="Total Admins"
-          value="48"
-          percentage="+8%"
-          timeframe="from last month"
+          value={`${admins.length}`}
+          percentage=""
+          timeframe=""
           icon="Users"
           iconBgColor="bg-green-100"
           iconColor="text-green-600"
         />
-        <KPICard
+        {/* <KPICard
           title="Total Devices"
           value="1,247"
           percentage="+24%"
@@ -66,10 +107,10 @@ const Dashboard = () => {
           icon="Signal"
           iconBgColor="bg-purple-100"
           iconColor="text-purple-600"
-        />
+        /> */}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 hidden">
         <StatusCard
           title="All Companies"
           value="24"
@@ -123,7 +164,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="lg:col-span-2 bg-white rounded-lg p-6 shadow-sm">
-          <h3 className="text-lg font-bold mb-4">Device Activity Overview</h3>
+          <h3 className="text-lg font-bold mb-4">Activity Overview</h3>
           <div className="h-80">
             <ActivityChart />
           </div>

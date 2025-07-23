@@ -1,10 +1,16 @@
-
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -93,10 +99,6 @@ const PersonalInfoForm = () => {
                 </FormItem>
               )}
             />
-            <div>
-              <Label>Role</Label>
-              <Input value="Super Administrator" disabled className="bg-gray-100" />
-            </div>
             <div className="flex justify-end space-x-3">
               <Button type="button" variant="outline">
                 Cancel

@@ -15,6 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Search, Eye, Edit, Trash, Building } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card } from "./ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const iconColorMap = [
   { iconBg: "bg-blue-100", iconColor: "text-blue-600" },

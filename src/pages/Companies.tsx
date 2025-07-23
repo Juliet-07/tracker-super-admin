@@ -6,7 +6,6 @@ import { Plus, ArrowRight, Building, ChartLine } from "lucide-react";
 import CompanyStatsCard from "@/components/CompanyStatsCard";
 import QuickActionCard from "@/components/QuickActionCard";
 import CompaniesTable from "@/components/CompaniesTable";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const CompaniesPage = () => {
   const apiURL = import.meta.env.VITE_REACT_APP_BASE_URL;

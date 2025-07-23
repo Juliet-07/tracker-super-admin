@@ -1,30 +1,14 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
-  Wind,
-  Search,
   Bell,
   LogOut,
-  Globe,
   Building2,
-  Users,
   LineChart,
-  Settings,
-  Home,
-  MapPin,
-  Route,
-  Car,
-  BarChart3,
-  Shield,
-  Truck,
-  Navigation,
   AlertTriangle,
   CheckCircle,
   Clock,
-  X,
 } from "lucide-react";
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import {
@@ -34,7 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Logo_Black from "../assets/logo_black.jpg";
 
 const Header = () => {
@@ -42,17 +26,12 @@ const Header = () => {
   const navigate = useNavigate();
   const isSidebarCollapsed = state === "collapsed";
 
-  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState("English");
-  const languages = ["English", "Français", "Kinyarwanda"];
-
   const user = {
     user_metadata: {
       full_name: "Super Admin",
     },
   };
   const primaryRole = "Administrator";
-  const userRoles = ["Administrator", "Editor"];
 
   // Mock notifications data
   const notifications = [
@@ -114,14 +93,9 @@ const Header = () => {
     return name.substring(0, 2).toUpperCase();
   };
 
-  const handleLanguageSelect = (lang: string) => {
-    setCurrentLanguage(lang);
-    setIsLanguageOpen(false);
-  };
-
   const handleSignOut = () => {
     console.log("Signing out...");
-    navigate("/login");
+    navigate("/");
   };
 
   const handleMarkAllAsRead = () => {
@@ -146,16 +120,6 @@ const Header = () => {
         </div>
 
         <div className="flex items-center space-x-2 md:space-x-4">
-          {/* <Link to="/search" className="relative hidden lg:block">
-            <Input
-              type="text"
-              placeholder="Search..."
-              className="bg-gray-100 text-gray-900 placeholder-gray-500 rounded-lg w-64 border-0 focus-visible:ring-primary cursor-pointer"
-              readOnly
-            />
-            <Search className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
-          </Link> */}
-
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -250,11 +214,7 @@ const Header = () => {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <DropdownMenu
-            onOpenChange={(open) => {
-              if (!open) setIsLanguageOpen(false);
-            }}
-          >
+          <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="flex items-center space-x-2 cursor-pointer">
                 <Avatar className="h-9 w-9 bg-[#52897d] cursor-pointer">
@@ -276,15 +236,6 @@ const Header = () => {
                     {user?.user_metadata?.full_name || "User"}
                   </h3>
                   <p className="text-[#52897d] font-medium">{primaryRole}</p>
-                  {userRoles.length > 1 && (
-                    <p className="text-xs text-gray-500">
-                      +{userRoles.length - 1} more role
-                      {userRoles.length > 2 ? "s" : ""}
-                    </p>
-                  )}
-                  <p className="text-sm text-gray-500">
-                    50 vehicles • 25 drivers
-                  </p>
                 </div>
               </div>
 
@@ -299,31 +250,7 @@ const Header = () => {
                     </div>
                     <div>
                       <div className="font-medium text-gray-800">
-                        Fleet Management
-                      </div>
-                      <div className="text-xs text-gray-500">
-                        Manage vehicle fleets
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem
-                asChild
-                className="px-4 py-3 cursor-pointer hover:bg-gray-50"
-              >
-                <Link to="/admins">
-                  <div className="flex items-center gap-3 text-base">
-                    <div className="p-2 bg-purple-50 rounded-lg">
-                      <Users className="h-5 w-5 text-purple-600" />
-                    </div>
-                    <div>
-                      <div className="font-medium text-gray-800">
-                        Driver Management
-                      </div>
-                      <div className="text-xs text-gray-500">
-                        Manage drivers & operators
+                        Company Management
                       </div>
                     </div>
                   </div>
@@ -350,112 +277,6 @@ const Header = () => {
                   </div>
                 </Link>
               </DropdownMenuItem>
-
-              {/* <DropdownMenuItem className="px-4 py-3 cursor-pointer hover:bg-gray-50">
-                <div className="flex items-center gap-3 text-base">
-                  <div className="p-2 bg-pink-50 rounded-lg">
-                    <MapPin className="h-5 w-5 text-pink-600" />
-                  </div>
-                  <div>
-                    <div className="font-medium text-gray-800">
-                      Live Tracking
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      Real-time vehicle monitoring
-                    </div>
-                  </div>
-                </div>
-              </DropdownMenuItem> */}
-
-              {/* <DropdownMenuItem className="px-4 py-3 cursor-pointer hover:bg-gray-50">
-                <div className="flex items-center gap-3 text-base">
-                  <div className="p-2 bg-orange-50 rounded-lg">
-                    <Route className="h-5 w-5 text-orange-600" />
-                  </div>
-                  <div>
-                    <div className="font-medium text-gray-800">
-                      Route Planning
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      Optimize delivery routes
-                    </div>
-                  </div>
-                </div>
-              </DropdownMenuItem>
-
-              <DropdownMenuSeparator />
-
-              <DropdownMenuItem
-                asChild
-                className="px-4 py-3 cursor-pointer hover:bg-gray-50"
-              >
-                <Link to="/settings">
-                  <div className="flex items-center gap-3 text-base">
-                    <div className="p-2 bg-gray-100 rounded-lg">
-                      <Settings className="h-5 w-5 text-gray-600" />
-                    </div>
-                    <div>
-                      <div className="font-medium text-gray-800">
-                        System Settings
-                      </div>
-                      <div className="text-xs text-gray-500">
-                        GPS & platform configuration
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem className="px-4 py-3 cursor-pointer hover:bg-gray-50">
-                <div className="flex items-center gap-3 text-base">
-                  <div className="p-2 bg-indigo-50 rounded-lg">
-                    <Shield className="h-5 w-5 text-indigo-600" />
-                  </div>
-                  <div>
-                    <div className="font-medium text-gray-800">
-                      Security & Alerts
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      Vehicle security management
-                    </div>
-                  </div>
-                </div>
-              </DropdownMenuItem>
-
-              <DropdownMenuSeparator /> */}
-
-              {/* Language */}
-              {/* <div className="relative">
-                <div
-                  className="px-4 py-3 cursor-pointer hover:bg-gray-50 flex items-center justify-between"
-                  onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                >
-                  <div className="flex items-center gap-2 text-base">
-                    <Globe size={18} />
-                    <span className="text-gray-800">Language</span>
-                  </div>
-                  <div className="flex items-center text-sm text-gray-500">
-                    {currentLanguage}
-                  </div>
-                </div>
-                {isLanguageOpen && (
-                  <div className="p-2">
-                    {languages.map((lang) => (
-                      <DropdownMenuItem
-                        key={lang}
-                        className={`text-sm ${
-                          lang === currentLanguage
-                            ? "font-medium bg-accent"
-                            : ""
-                        }`}
-                        onClick={() => handleLanguageSelect(lang)}
-                      >
-                        {lang}
-                      </DropdownMenuItem>
-                    ))}
-                  </div>
-                )}
-              </div> */}
 
               <DropdownMenuSeparator />
 

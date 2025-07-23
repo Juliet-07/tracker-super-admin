@@ -87,14 +87,14 @@ const AdminsPage = () => {
       )} */}
 
       {/* Admin Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2  gap-6 mb-8">
         <AdminStatsCard
           title="Total Admins"
           value={`${users.length}`}
           Icon={Users}
           iconWrapperClassName="bg-blue-100 text-blue-600"
           description={
-            <div className="flex items-center">
+            <div className="flex items-center hidden">
               <span className="text-green-600">+8%</span>
               <span className="text-gray-600 ml-2">from last month</span>
             </div>
@@ -102,12 +102,14 @@ const AdminsPage = () => {
         />
         <AdminStatsCard
           title="Active Admins"
-          value="42"
+          value={`${users.length}`}
           Icon={UserCheck}
           iconWrapperClassName="bg-green-100 text-green-600"
-          description={<span className="text-green-600">87.5% Active</span>}
+          description={
+            <span className="text-green-600 hidden">87.5% Active</span>
+          }
         />
-        <AdminStatsCard
+        {/* <AdminStatsCard
           title="Pending Invites"
           value="6"
           Icon={Clock}
@@ -120,11 +122,11 @@ const AdminsPage = () => {
           Icon={Building}
           iconWrapperClassName="bg-purple-100 text-purple-600"
           description={<span className="text-green-600">100% Coverage</span>}
-        />
+        /> */}
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
+      <div className="bg-white rounded-lg p-6 shadow-sm mb-6 hidden">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4">
             <div className="relative">
