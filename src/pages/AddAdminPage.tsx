@@ -52,7 +52,7 @@ const AddAdminPage = () => {
     fixedEmail: false,
     poiLayer: null,
     role: "ADMIN",
-    companyId: 7,
+    companyId: undefined,
     totpKey: null,
     temporary: false,
   };
@@ -223,7 +223,7 @@ const AddAdminPage = () => {
                     </Label>
                     <Select
                       required
-                      value={String(companyId)}
+                      value={companyId ? String(companyId) : undefined}
                       onValueChange={(value) =>
                         setFormData((prev) => ({
                           ...prev,

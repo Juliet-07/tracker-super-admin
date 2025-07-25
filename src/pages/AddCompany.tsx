@@ -92,7 +92,7 @@ const AddCompanyPage = () => {
     registrationNumber: "",
     companySize: "",
     businessAddress: "",
-    industryId: 0,
+    industryId: undefined,
     website: "",
     timeZone: "",
   };
@@ -157,7 +157,7 @@ const AddCompanyPage = () => {
 
     setFormData((prev) => ({ ...prev, logo: file.name }));
   };
-  
+
   const handleAddCompany = async () => {
     if (!industryId) {
       alert("Please select industry");
@@ -272,7 +272,7 @@ const AddCompanyPage = () => {
                   <Label htmlFor="industryId">Industry *</Label>
                   <Select
                     required
-                    value={String(industryId)}
+                    value={industryId ? String(industryId) : undefined}
                     onValueChange={(value) =>
                       setFormData((prev) => ({
                         ...prev,
