@@ -112,7 +112,7 @@ const AddAdminPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAddCompany = async () => {
+  const handleAddCompanyAdmin = async () => {
     if (!companyId) {
       alert("Please select Company");
       return;
@@ -175,7 +175,7 @@ const AddAdminPage = () => {
                 Admin Details
               </h2>
             </div>
-            <form onSubmit={handleSubmit(handleAddCompany)}>
+            <form onSubmit={handleSubmit(handleAddCompanyAdmin)}>
               <div className="px-8">
                 <div className="space-y-6">
                   <div>
