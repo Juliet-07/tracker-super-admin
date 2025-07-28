@@ -28,8 +28,9 @@ const iconColorMap = [
 
 const CompaniesTable = () => {
   const apiURL = import.meta.env.VITE_REACT_APP_BASE_URL;
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 7;
 
   const getColorPair = (index: number) => {
     return iconColorMap[index % iconColorMap.length];
@@ -54,16 +55,19 @@ const CompaniesTable = () => {
     staleTime: 5 * 60 * 1000,
   });
 
-  const paginatedCompanies = companies.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const paginatedCompanies = companies
+    .filter((company) =>
+      company.companyName.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <Card className="shadow-sm">
       <div className="p-6 border-b">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold">Recent Companies</h3>
+          <h3 className="text-lg font-bold">
+            All Companies ({companies.length})
+          </h3>
           <div className="flex items-center space-x-3">
             <div className="relative">
               <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
@@ -71,6 +75,8 @@ const CompaniesTable = () => {
                 type="text"
                 placeholder="Search companies..."
                 className="pl-10 w-64"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
           </div>

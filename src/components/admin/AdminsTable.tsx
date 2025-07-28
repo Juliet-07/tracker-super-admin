@@ -7,6 +7,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const admins = [
   {
@@ -47,10 +56,40 @@ const admins = [
 export const AdminsTable = () => {
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-200">
+      <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-800">
           Admins Available on Platform
         </h3>
+        <div className="flex items-end space-x-6">
+          {/* Search Input */}
+          <div className="relative flex flex-col">
+            <div className="relative">
+              <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+              <Input
+                type="text"
+                placeholder="Search Admins..."
+                className="pl-10 w-64"
+                // value={searchTerm}
+                // onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Select Filter */}
+          <div className="flex flex-col">
+            <label className="text-xs mb-1 ml-1">Filter Admin By Company</label>
+            <Select>
+              <SelectTrigger className="w-64 sm:w-auto">
+                <SelectValue placeholder="All Companies" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="company1">Tech Corp</SelectItem>
+                <SelectItem value="company2">Global Logistics</SelectItem>
+                <SelectItem value="company3">Metro Transport</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
       </div>
       <div className="overflow-x-auto">
         <Table>

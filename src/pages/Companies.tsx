@@ -44,7 +44,7 @@ const CompaniesPage = () => {
           </Link>
         </Button>
       </div>
-
+{/* 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <CompanyStatsCard
           title="All Companies"
@@ -69,26 +69,6 @@ const CompaniesPage = () => {
           value="2"
           barText="8% Suspended"
           barColor="bg-danger"
-        />
-      </div>
-
-      {/* Quick Actions */}
-      {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <QuickActionCard
-          title="Manage Companies"
-          description="View, create, update, delete company profiles. Assign admins and manage permissions for each organization."
-          buttonText="View All Companies"
-          buttonIcon={ArrowRight}
-          titleIcon={Building}
-          imageUrl="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&q=80"
-        />
-        <QuickActionCard
-          title="Company Reports"
-          description="Generate detailed reports for each company including device usage, admin activities, and performance metrics."
-          buttonText="Generate Reports"
-          buttonIcon={ArrowRight}
-          titleIcon={ChartLine}
-          imageUrl="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&q=80"
         />
       </div> */}
 
