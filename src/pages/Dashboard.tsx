@@ -42,7 +42,7 @@ const Dashboard = () => {
     isError,
     error,
   } = useQuery({
-    queryKey: ["companies"],
+    queryKey: ["companies", "company-card"],
     queryFn: fetchCompanies,
     staleTime: 5 * 60 * 1000,
   });

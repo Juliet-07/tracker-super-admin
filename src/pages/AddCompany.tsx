@@ -16,67 +16,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
 import { toast, ToastContainer } from "react-toastify";
 
-const SubscriptionPlanCard = ({
-  title,
-  price,
-  description,
-  features,
-  selected,
-  onSelect,
-}: {
-  title: string;
-  price: string;
-  description: string;
-  features: string[];
-  selected: boolean;
-  onSelect: () => void;
-}) => {
-  return (
-    <div
-      className={cn(
-        "border-2 rounded-lg p-4 cursor-pointer hover:border-primary transition-all",
-        selected ? "border-primary bg-blue-50 shadow-sm" : "border-gray-200"
-      )}
-      onClick={onSelect}
-    >
-      <div className="flex items-center justify-between mb-2">
-        <h4 className="font-bold">{title}</h4>
-        <span className="text-2xl font-bold text-primary">${price}</span>
-      </div>
-      <p className="text-gray-600 text-sm mb-3">{description}</p>
-      <ul className="text-sm text-gray-600 space-y-1">
-        {features.map((feature) => (
-          <li key={feature}>• {feature}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-// const [selectedPlan, setSelectedPlan] = useState("Professional");
-
-const subscriptionPlans = [
-  {
-    title: "Starter",
-    price: "29",
-    description: "Perfect for small businesses",
-    features: ["Up to 10 devices", "Basic tracking", "Email support"],
-  },
-  {
-    title: "Professional",
-    price: "79",
-    description: "Most popular choice",
-    features: ["Up to 50 devices", "Advanced features", "Priority support"],
-  },
-  {
-    title: "Enterprise",
-    price: "199",
-    description: "For large organizations",
-    features: ["Unlimited devices", "Custom features", "Dedicated support"],
-  },
-];
 const AddCompanyPage = () => {
   const apiURL = import.meta.env.VITE_REACT_APP_BASE_URL;
   const { handleSubmit } = useForm();

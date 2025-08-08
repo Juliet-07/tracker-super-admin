@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import AdminRow from "./AdminRow";
 
 const admins1 = [
   {
@@ -122,6 +123,9 @@ export const AdminsTable = () => {
                 Email
               </TableHead>
               <TableHead className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Phone Number
+              </TableHead>
+              <TableHead className="text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Company
               </TableHead>
               <TableHead className="text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -134,61 +138,7 @@ export const AdminsTable = () => {
           </TableHeader>
           <TableBody>
             {paginatedAdminTable.map((admin) => (
-              <TableRow key={admin.email}>
-                <TableCell>
-                  <div className="flex items-center">
-                    <Avatar className="h-10 w-10">
-                      <AvatarImage src={admin.avatar} alt={admin.name} />
-                      <AvatarFallback>
-                        {admin.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="ml-4">
-                      <div className="text-sm font-medium text-gray-900">
-                        {admin.name}
-                      </div>
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="text-sm text-gray-900">{admin.email}</div>
-                </TableCell>
-                <TableCell>
-                  <div className="text-sm text-gray-900">{admin.company}</div>
-                  <div className="text-sm text-gray-500">
-                    {admin.companyType}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
-                    {admin.role}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  {admin.status === "Pending" ? (
-                    <div className="flex items-center space-x-3 text-sm font-medium">
-                      <button className="text-primary hover:text-blue-900">
-                        Resend
-                      </button>
-                      <button className="text-red-600 hover:text-red-900">
-                        Cancel
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex items-center space-x-3 text-sm font-medium">
-                      <button className="text-primary hover:text-blue-900">
-                        Edit
-                      </button>
-                      <button className="text-red-600 hover:text-red-900">
-                        Deactivate
-                      </button>
-                    </div>
-                  )}
-                </TableCell>
-              </TableRow>
+              <AdminRow key={admin.email} admin={admin} />
             ))}
           </TableBody>
         </Table>
