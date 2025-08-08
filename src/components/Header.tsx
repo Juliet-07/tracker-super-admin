@@ -1,3 +1,5 @@
+import axiosInstance from "@/api/axios";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -22,6 +24,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Logo_Black from "../assets/logo_black.jpg";
 
 const Header = () => {
+  const apiURL = import.meta.env.VITE_REACT_APP_BASE_URL;
   const { state } = useSidebar();
   const navigate = useNavigate();
   const isSidebarCollapsed = state === "collapsed";
@@ -33,8 +36,26 @@ const Header = () => {
   };
   const primaryRole = "Administrator";
 
+  const fetchNotifications = async () => {
+    const res = await axiosInstance.get(`${apiURL}/notifications`, {
+      withCredentials: true,
+    });
+    return res.data;
+  };
+
+  const {
+    data: notifications = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["companies"],
+    queryFn: fetchNotifications,
+    staleTime: 5 * 60 * 1000,
+  });
+
   // Mock notifications data
-  const notifications = [
+  const notifications1 = [
     {
       id: 1,
       type: "alert",
@@ -203,14 +224,7 @@ const Header = () => {
                 ))}
               </div>
 
-              <div className="p-3 border-t">
-                {/* <Button
-                  variant="ghost"
-                  className="w-full text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                >
-                  View all notifications
-                </Button> */}
-              </div>
+              <div className="p-3 border-t"></div>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -269,9 +283,6 @@ const Header = () => {
                     <div>
                       <div className="font-medium text-gray-800">
                         Analytics & Reports
-                      </div>
-                      <div className="text-xs text-gray-500">
-                        Performance & route insights
                       </div>
                     </div>
                   </div>

@@ -24,8 +24,16 @@ const Dashboard = () => {
     const res = await axiosInstance.get(`${apiURL}/users`, {
       withCredentials: true,
     });
-    // console.log(res.data, "response");
-    return res.data;
+    const admins = res.data.filter((user) => user.role === "ADMIN");
+    return admins;
+  };
+
+  const fetchUsers = async () => {
+    const res = await axiosInstance.get(`${apiURL}/users`, {
+      withCredentials: true,
+    });
+    const users = res.data.filter((user) => user.role === "COMPANY_USER");
+    return users;
   };
 
   const {
@@ -47,6 +55,16 @@ const Dashboard = () => {
   } = useQuery({
     queryKey: ["admin"],
     queryFn: fetchAdmins,
+    staleTime: 5 * 60 * 1000,
+  });
+  const {
+    data: users = [],
+    // isLoading,
+    // isError,
+    // error,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: fetchUsers,
     staleTime: 5 * 60 * 1000,
   });
   return (
@@ -71,7 +89,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <KPICard
           title="Total Companies"
           value={`${companies.length}`}
@@ -90,16 +108,16 @@ const Dashboard = () => {
           iconBgColor="bg-green-100"
           iconColor="text-green-600"
         />
-        {/* <KPICard
-          title="Total Devices"
-          value="1,247"
-          percentage="+24%"
-          timeframe="from last month"
+        <KPICard
+          title="Total Users"
+          value={`${users.length}`}
+          percentage=""
+          timeframe=""
           icon="Car"
           iconBgColor="bg-orange-100"
           iconColor="text-orange-600"
         />
-        <KPICard
+        {/* <KPICard
           title="Active Now"
           value="892"
           percentage="+5%"

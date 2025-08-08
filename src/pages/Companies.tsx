@@ -1,33 +1,9 @@
 import { Link } from "react-router-dom";
-import axiosInstance from "@/api/axios";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Plus, ArrowRight, Building, ChartLine } from "lucide-react";
-import CompanyStatsCard from "@/components/CompanyStatsCard";
-import QuickActionCard from "@/components/QuickActionCard";
+import { Plus } from "lucide-react";
 import CompaniesTable from "@/components/CompaniesTable";
 
 const CompaniesPage = () => {
-  const apiURL = import.meta.env.VITE_REACT_APP_BASE_URL;
-
-  const fetchCompanies = async () => {
-    const res = await axiosInstance.get(`${apiURL}/companies`, {
-      withCredentials: true,
-    });
-    console.log(res.data, "response");
-    return res.data;
-  };
-
-  const {
-    data: companies = [],
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ["companies"],
-    queryFn: fetchCompanies,
-    staleTime: 5 * 60 * 1000,
-  });
   return (
     <main className="p-4 md:p-6">
       {/* Page Header */}
@@ -44,33 +20,6 @@ const CompaniesPage = () => {
           </Link>
         </Button>
       </div>
-{/* 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <CompanyStatsCard
-          title="All Companies"
-          value={`${companies.length}`}
-          barText="Total Companies"
-          barColor="bg-primary"
-        />
-        <CompanyStatsCard
-          title="Currently"
-          value="18"
-          barText="75% Active"
-          barColor="bg-success"
-        />
-        <CompanyStatsCard
-          title="Currently"
-          value="4"
-          barText="17% Inactive"
-          barColor="bg-warning"
-        />
-        <CompanyStatsCard
-          title="Currently"
-          value="2"
-          barText="8% Suspended"
-          barColor="bg-danger"
-        />
-      </div> */}
 
       {/* Companies Table */}
       <CompaniesTable />

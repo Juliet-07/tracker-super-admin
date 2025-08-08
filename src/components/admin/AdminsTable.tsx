@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axiosInstance from "@/api/axios";
 import {
   Table,
   TableBody,
@@ -8,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import {
   Select,
@@ -17,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const admins = [
+const admins1 = [
   {
     name: "John Smith",
     email: "john.smith@techcorp.com",
@@ -54,6 +58,37 @@ const admins = [
 ];
 
 export const AdminsTable = () => {
+  const apiURL = import.meta.env.VITE_REACT_APP_BASE_URL;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const fetchAdmins = async () => {
+    const res = await axiosInstance.get(`${apiURL}/users`, {
+      withCredentials: true,
+    });
+    const admins = res.data.filter((user) => user.role === "ADMIN");
+    console.log(admins, "Admins only");
+    return admins;
+  };
+
+  const {
+    data: admins = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["admins"],
+    queryFn: fetchAdmins,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const paginatedAdminTable = admins
+    .filter((admin) =>
+      admin.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
@@ -69,25 +104,10 @@ export const AdminsTable = () => {
                 type="text"
                 placeholder="Search Admins..."
                 className="pl-10 w-64"
-                // value={searchTerm}
-                // onChange={(e) => setSearchTerm(e.target.value)}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-          </div>
-
-          {/* Select Filter */}
-          <div className="flex flex-col">
-            <label className="text-xs mb-1 ml-1">Filter Admin By Company</label>
-            <Select>
-              <SelectTrigger className="w-64 sm:w-auto">
-                <SelectValue placeholder="All Companies" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="company1">Tech Corp</SelectItem>
-                <SelectItem value="company2">Global Logistics</SelectItem>
-                <SelectItem value="company3">Metro Transport</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
         </div>
       </div>
@@ -96,7 +116,10 @@ export const AdminsTable = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Admin
+                Name
+              </TableHead>
+              <TableHead className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Email
               </TableHead>
               <TableHead className="text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Company
@@ -105,18 +128,12 @@ export const AdminsTable = () => {
                 Role
               </TableHead>
               <TableHead className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </TableHead>
-              <TableHead className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Last Login
-              </TableHead>
-              <TableHead className="text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {admins.map((admin) => (
+            {paginatedAdminTable.map((admin) => (
               <TableRow key={admin.email}>
                 <TableCell>
                   <div className="flex items-center">
@@ -133,9 +150,11 @@ export const AdminsTable = () => {
                       <div className="text-sm font-medium text-gray-900">
                         {admin.name}
                       </div>
-                      <div className="text-sm text-gray-500">{admin.email}</div>
                     </div>
                   </div>
+                </TableCell>
+                <TableCell>
+                  <div className="text-sm text-gray-900">{admin.email}</div>
                 </TableCell>
                 <TableCell>
                   <div className="text-sm text-gray-900">{admin.company}</div>
@@ -147,20 +166,6 @@ export const AdminsTable = () => {
                   <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
                     {admin.role}
                   </span>
-                </TableCell>
-                <TableCell>
-                  <span
-                    className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      admin.status === "Active"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-orange-100 text-orange-800"
-                    }`}
-                  >
-                    {admin.status}
-                  </span>
-                </TableCell>
-                <TableCell className="text-sm text-gray-500">
-                  {admin.lastLogin}
                 </TableCell>
                 <TableCell>
                   {admin.status === "Pending" ? (
@@ -187,6 +192,29 @@ export const AdminsTable = () => {
             ))}
           </TableBody>
         </Table>
+        <div className="flex justify-end items-center gap-4 m-4">
+          <Button
+            variant="outline"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </Button>
+          <span className="text-sm text-gray-700">
+            Page {currentPage} of {Math.ceil(admins.length / itemsPerPage)}
+          </span>
+          <Button
+            variant="outline"
+            onClick={() =>
+              setCurrentPage((prev) =>
+                prev < Math.ceil(admins.length / itemsPerPage) ? prev + 1 : prev
+              )
+            }
+            disabled={currentPage === Math.ceil(admins.length / itemsPerPage)}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -21,19 +21,20 @@ const AdminsPage = () => {
     const res = await axiosInstance.get(`${apiURL}/users`, {
       withCredentials: true,
     });
+    const admins = res.data.filter((user) => user.role === "ADMIN");
     console.log(res.data, "response");
-    return res.data;
+    return admins;
   };
 
   const {
-    data: users = [],
+    data: admins = [],
     isLoading,
     isError,
     error,
   } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["users", "company-admins"],
     queryFn: fetchCompanyAdmins,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000,
   });
 
   return (
@@ -60,32 +61,18 @@ const AdminsPage = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2  gap-6 mb-8">
         <AdminStatsCard
           title="Total Admins"
-          value={`${users.length}`}
+          value={`${admins.length}`}
           Icon={Users}
           iconWrapperClassName="bg-blue-100 text-blue-600"
           description={<div className="flex items-center "></div>}
         />
         <AdminStatsCard
           title="Active Admins"
-          value={`${users.length}`}
+          value={`${admins.length}`}
           Icon={UserCheck}
           iconWrapperClassName="bg-green-100 text-green-600"
           description={<span className="text-green-600 hidden"></span>}
         />
-        {/* <AdminStatsCard
-          title="Pending Invites"
-          value="6"
-          Icon={Clock}
-          iconWrapperClassName="bg-orange-100 text-orange-600"
-          description={<span className="text-orange-600">12.5% Pending</span>}
-        />
-        <AdminStatsCard
-          title="Companies Covered"
-          value="24"
-          Icon={Building}
-          iconWrapperClassName="bg-purple-100 text-purple-600"
-          description={<span className="text-green-600">100% Coverage</span>}
-        /> */}
       </div>
 
       {/* Admins Table */}
